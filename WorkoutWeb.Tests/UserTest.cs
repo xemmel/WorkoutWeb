@@ -4,7 +4,6 @@ using WorkoutWeb.Models;
 
 namespace WorkoutWeb.Tests
 {
-  [TestClass]
   public class UserTest
   {
     private const string USERNAME = "Clara";

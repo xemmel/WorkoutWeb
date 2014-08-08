@@ -4,7 +4,6 @@ using WorkoutWeb.Helpers;
 
 namespace WorkoutWeb.Tests
 {
-  [TestClass]
   public class AuthHelperTest
   {
     private const string VALIDUSER = "lacour";

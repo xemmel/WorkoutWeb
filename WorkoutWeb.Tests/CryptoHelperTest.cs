@@ -4,7 +4,6 @@ using WorkoutWeb.Helpers;
 
 namespace WorkoutWeb.Tests
 {
-  [TestClass]
   public class CryptoHelperTest
   {
     private const string PLAININPUT = "Clara la Cour";
