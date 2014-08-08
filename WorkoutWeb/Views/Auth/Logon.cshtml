@@ -1,0 +1,32 @@
+﻿@model WorkoutWeb.Models.Logon
+@{
+
+  ViewBag.Title = "Logon";
+}
+
+@using (Html.BeginForm())
+{
+     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+       @Html.LabelFor(Model => Model.UserName)
+       <input type="text" name="UserName" class="form-control" placeholder="User Name" />
+      @Html.ValidationMessageFor(Model => Model.UserName)
+          
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+    </div>
+    <div class="form-group">
+       @Html.EditorFor(Model => Model.RememberMe)
+       @Html.LabelFor(model => model.RememberMe)
+   
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
