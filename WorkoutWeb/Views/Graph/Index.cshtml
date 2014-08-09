@@ -29,6 +29,7 @@
     </div>
 
     <div class="col-md-offset-4">
+      <input type="checkbox" data-ng-model="chkPie" id="chkPie" title="Pie" /><label for="chkPie">Pie</label>
       <div id="myGraph"></div>
     </div>
   </div>
@@ -66,29 +67,44 @@
   <script>
     // Load the Visualization API and the piechart package.
     google.load('visualization', '1.0', { 'packages': ['corechart'] });
-
-    function drawPie(data) {
-      var tdata = new google.visualization.DataTable();
-
-      tdata.addColumn('string', 'Fruits');
-      tdata.addColumn('number', 'Sales');
-      for (var i = 0; i < data.length; i++) {
-        tdata.addRow([data[i].Name, data[i].Value]);
-      };
-      new google.visualization.PieChart(document.getElementById('myGraph')).
-        draw(tdata, { title: "Fruits", is3D: true });
-
-    };
+ 
 
     var app = angular.module("graphApp", []);
 
     app.controller("graphCtrl", function ($scope, $http) {
+
       $scope.pie = {};
       $scope.pies = [];
+      $scope.chkPie = false;
       $scope.updateMode = false;
       $scope.loadMode = false;;
       $scope.status = "";
+      function drawPie(data) {
+        var tdata = new google.visualization.DataTable();
 
+        tdata.addColumn('string', 'Fruits');
+        tdata.addColumn('number', 'Sales');
+        for (var i = 0; i < data.length; i++) {
+          tdata.addRow([data[i].Name, data[i].Value]);
+        };
+        if (!$scope.chkPie) {
+          new google.visualization.ColumnChart(document.getElementById('myGraph')).
+            draw(tdata, { title: "Fruits", is3D: true });
+        }
+        else {
+          new google.visualization.PieChart(document.getElementById('myGraph')).
+    draw(tdata, { title: "Fruits", is3D: true });
+
+        }
+
+      };
+  
+      $scope.$watch('chkPie', function (old, n) {
+        $scope.updateScreen();
+      });
+      $scope.changedCheck = function () {
+        console.log("f");
+      };
       $scope.updateScreen = function () {
         $scope.loadMode = true; 
         $http({ method: "GET", url: "Graph/GetPieData" }).
