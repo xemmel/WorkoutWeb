@@ -50,9 +50,9 @@ namespace WorkoutWeb.Controllers
       return Json(p);
     }
     
-    public ActionResult GetPieData()
+    public ActionResult GetPieData(int id)
     {
-      List<PieValue> data = db.PieValues.ToList();
+      List<PieValue> data = db.PieValues.Where(p => (p.Category == id)).ToList();
       return Json(data, JsonRequestBehavior.AllowGet);
     }
   }

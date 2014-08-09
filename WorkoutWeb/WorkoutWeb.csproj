@@ -249,6 +249,8 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\Custom\Graph_Index.js" />
+    <Content Include="Scripts\Custom\Template.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
