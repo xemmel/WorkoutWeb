@@ -11,6 +11,7 @@
 <h2>Create Graph Data</h2>
 
 <div data-ng-app="graphApp" data-ng-controller="graphCtrl">
+  
   <div class="row">
     <div class="col-md-2">
       <label>Fruit:</label>
@@ -34,6 +35,9 @@
 
   <div class="badge">{{status}}</div>
   <hr />
+   <div class="loader">
+    <img src="~/Images/ajax-loader.gif" class="ajax-loader" data-ng-show="loadMode" />
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -80,18 +84,23 @@
       $scope.pie = {};
       $scope.pies = [];
       $scope.updateMode = false;
+      $scope.loadMode = false;;
       $scope.status = "";
+
       $scope.updateScreen = function () {
+        $scope.loadMode = true; 
         $http({ method: "GET", url: "Graph/GetPieData" }).
           success(function (data) {
             $scope.pies = data;
             drawPie(data);
             console.dir(data);
+            $scope.loadMode = false;
           });
       };
 
 
       $scope.save = function () {
+        $scope.loadMode = true; 
         console.dir($scope.pie);
         $http({ method: 'POST', url: 'Graph/PostPieData', data: $scope.pie }).
             success(function (data, status, headers, config) {
@@ -121,6 +130,8 @@
       };
 
       $scope.update = function () {
+        $scope.loadMode = true;
+
         console.log("Updating..");
         console.dir($scope.pie);
         $http({ method: "PUT", url: "Graph/UpdatePie/" + $scope.pie.PieValueId, data: $scope.pie }).
@@ -136,6 +147,8 @@
       };
 
       $scope.delete = function (id) {
+        $scope.loadMode = true;
+
         console.log(id);
         $http({ method: "DELETE", url: "Graph/DelPie/" + id }).
           success(function (data) {
