@@ -35,3 +35,4 @@ c:\projects\own\WorkoutWeb\WorkoutWeb\bin\CryptSharp.xml
 c:\projects\own\WorkoutWeb\WorkoutWeb\obj\Debug\WorkoutWeb.Migrations.User_Init.resources
 c:\projects\own\WorkoutWeb\WorkoutWeb\obj\Debug\WorkoutWeb.csproj.GenerateResource.Cache
 c:\projects\own\WorkoutWeb\WorkoutWeb\obj\Debug\WorkoutWeb.Migrations.AddPieValue.resources
+c:\projects\own\WorkoutWeb\WorkoutWeb\obj\Debug\WorkoutWeb.Migrations.Category.resources

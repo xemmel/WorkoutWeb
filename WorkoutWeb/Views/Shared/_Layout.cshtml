@@ -1,78 +1,100 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@ViewBag.Title</title>
   @Styles.Render("~/Content/css")
   @Scripts.Render("~/bundles/modernizr")
-      @RenderSection("headscripts", required: false)
-</head>
-<body>
- <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">WorkoutWeb</a>
-    </div>
+   @Scripts.Render("~/bundles/angular")
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Graphs <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-        <li>@Html.ActionLink("GraphData","GetPieData","Graph")</li>
-        <li>@Html.ActionLink("Graph","ShowGraph","Graph")</li>
-        <li>@Html.ActionLink("Set up","Index","Graph")</li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
+  @RenderSection("headscripts", required: false)
+</head>
+<body data-ng-app>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-controller="navCtrl">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle Navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">WorkoutWeb</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active">@Html.ActionLink("Categories", "Index", "Category")</li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Graphs <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li>@Html.ActionLink("GraphData", "GetPieData", "Graph")</li>
+              <li>@Html.ActionLink("Graph", "ShowGraph", "Graph")</li>
+              <li>@Html.ActionLink("Set up", "Index", "Graph")</li>
+              <li class="divider"></li>
+            @*  <li>@Html.ActionLink("Fruits", "ShowGraph/1", "Graph")</li>
+              <li>@Html.ActionLink("Presi", "ShowGraph/2", "Graph")</li>
+                            <li>@Html.ActionLink("Country", "ShowGraph/3", "Graph")</li>*@
+              <li data-ng-repeat="cat in categories">
+             <a href="/Graph/ShowGraph/{{cat.CategoryId}}">{{cat.Name}}</a>
+         
+                     </li>
+
+              <li class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          @if (User.Identity.IsAuthenticated)
+          {
+            <li>@Html.ActionLink("Sign out", "Logoff", "Auth")</li>
+ 
+          }
+          else
+          {
+            <li>@Html.ActionLink("Log on", "Logon", "Auth")</li>
+          }
+
+        </ul>
         @if (User.Identity.IsAuthenticated)
         {
-           <li>@Html.ActionLink("Sign out","Logoff","Auth")</li>
- 
+          <div class="badge">@User.Identity.Name</div>
         }
-        else
-        {
-          <li>@Html.ActionLink("Log on","Logon","Auth")</li>
-        }
-      
-      </ul>
-      @if(User.Identity.IsAuthenticated)
-      {
-        <div class="badge">@User.Identity.Name</div>
-      }
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
   <div class="container well">
     @RenderBody()
   </div>
 
   @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootjs")
-
+  @Scripts.Render("~/bundles/bootjs")
+  <script>
+    var navCtrl = function ($scope, $http) {
+      $scope.x = 17;
+      $scope.categories = [];
+      $scope.category = {};
+      $http({ method: "GET", url: "/Category/GetAll" }).
+        success(function (data) {
+          $scope.categories = data;
+          console.dir(data);
+        });
+    };
+  </script>
   @RenderSection("scripts", required: false)
 </body>
 </html>

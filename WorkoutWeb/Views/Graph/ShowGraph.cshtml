@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WorkoutWeb.Models.Category
+@{
     ViewBag.Title = "ShowGraph";
 }
 
@@ -7,6 +8,8 @@
 
  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 }
+<div style="display:none" id="cid">@Model.CategoryId</div>
+<div style="display:none" id="cname">@Model.Name</div>
 
 <div id="status">All systems are go...</div>
 
@@ -24,17 +27,24 @@
   <script>
     // Load the Visualization API and the piechart package.
     google.load('visualization', '1.0', { 'packages': ['corechart'] });
+    var modelCat = {};
+    $(function () {
+      var cid = $("#cid").text();
+      var cname = $("#cname").text();
+      modelCat = { CategoryId: cid, Name: cname };
+
+    });
 
     function drawPie(data) {
       var tdata = new google.visualization.DataTable();
 
-      tdata.addColumn('string', 'Fruits');
-      tdata.addColumn('number', 'Sales');
+      tdata.addColumn('string', modelCat.Name);
+      tdata.addColumn('number', 'Value');
       for (var i = 0; i < data.length; i++) {
         tdata.addRow([data[i].Name, data[i].Value]);
       };
       new google.visualization.PieChart(document.getElementById('myGraph')).
-        draw(tdata, { title: "Fruits", is3D: true });
+        draw(tdata, { title: modelCat.Name, is3D: true });
 
     };
 
@@ -43,7 +53,7 @@
      
 
    
-      $.get('GetPieData/1').done(function (data) {
+      $.get('/Graph/GetPieData/' + modelCat.CategoryId).done(function (data) {
         //Success
         drawPie(data);
       }).fail(function (error) {
@@ -60,25 +70,7 @@
 
 
 
-  //    $.get('GetPieData', {},
-  //        function (data) {
 
-  //          var tdata = new google.visualization.DataTable();
-
-  //          tdata.addColumn('string', 'Fruits');
-  //          tdata.addColumn('number', 'Sales');
-
-  //          for (var i = 0; i < data.length; i++) {
-  //            tdata.addRow([data[i].Name, data[i].Value]);
-  //          }
-
-  //          // Create and draw the visualization.
-  //          new google.visualization.PieChart(document.getElementById('myGraph')).
-  //              draw(tdata, { title: "Fruits", is3D: true });
-
-
-  //        }
-  //); // end get!
 
 
     };
@@ -88,7 +80,7 @@
     setInterval(function () {
       drawVisualization();
       console.log(Date());
-    }, 2000);
+    }, 5000);
 
   </script>
 

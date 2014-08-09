@@ -14,5 +14,6 @@ namespace WorkoutWeb.Models
     }
     public DbSet<User> Users { get; set; }
     public DbSet<PieValue> PieValues { get; set; }
+    public DbSet<Category> Categories { get; set; }
   }
 }

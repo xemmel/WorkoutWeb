@@ -4,30 +4,28 @@ google.load('visualization', '1.0', { 'packages': ['corechart'] });
 
 
 
-var app = angular.module("graphApp", []);
 
-app.controller("graphCtrl", function ($scope, $http) {
+var graphCtrl =  function ($scope, $http) {
 
   //Variables
   $scope.pie = {};
   $scope.pies = [];
   $scope.chkPie = false;
-  $scope.category = 1;
   $scope.updateMode = false;
   $scope.loadMode = false;
   $scope.status = "";
+  $scope.categories = [];
+  $scope.selectedCategory = {};
+  $http({ method: "GET", url: "Category/GetAll" }).
+    success(function (data) {
+      console.log(data);
+      $scope.categories = data;
+      $scope.selectedCategory = $scope.categories[0];
 
- 
+    });
+  
 
   function drawPie(data) {
-    var t = "";
-    if ($scope.category == 1) {
-      t  = "Fruits";
-    }
-    else {
-      t  = "Presidents";
-
-    }
     var tdata = new google.visualization.DataTable();
 
     tdata.addColumn('string', 'Fruits');
@@ -38,11 +36,11 @@ app.controller("graphCtrl", function ($scope, $http) {
     //either pie or column
     if (!$scope.chkPie) {
       new google.visualization.ColumnChart(document.getElementById('myGraph')).
-        draw(tdata, { title: t, is3D: true });
+        draw(tdata, { title: $scope.selectedCategory.Name, is3D: true });
     }
     else {
       new google.visualization.PieChart(document.getElementById('myGraph')).
-      draw(tdata, { title: t, is3D: true });
+      draw(tdata, { title: $scope.selectedCategory.Name, is3D: true });
 
     }
 
@@ -53,14 +51,19 @@ app.controller("graphCtrl", function ($scope, $http) {
   });
 
 
-  $scope.$watch('category', function (old, n) {
-    console.log($scope.category);
+  $scope.$watch('selectedCategory', function (old, n) {
+   // console.dir($scope.selectedCategory);
     $scope.updateScreen();
   });
   
   $scope.updateScreen = function () {
+    if (!($scope.selectedCategory.CategoryId > 0))
+      return;
+
+    //console.dir($scope.selectedCategory);
+
     $scope.loadMode = true;
-    $http({ method: "GET", url: "Graph/GetPieData/" + $scope.category }).
+    $http({ method: "GET", url: "Graph/GetPieData/" + $scope.selectedCategory.CategoryId }).
       success(function (data) {
         $scope.pies = data;
         drawPie(data);
@@ -73,7 +76,7 @@ app.controller("graphCtrl", function ($scope, $http) {
   $scope.save = function () {
     $scope.loadMode = true;
     console.dir($scope.pie);
-    $scope.pie.Category = $scope.category;
+    $scope.pie.Category = $scope.selectedCategory.CategoryId;
     $http({ method: 'POST', url: 'Graph/PostPieData', data: $scope.pie }).
         success(function (data, status, headers, config) {
           console.log("Success");
@@ -137,4 +140,4 @@ error(function (data, status, headers, config) {
 
   $scope.updateScreen();
 
-});
+};

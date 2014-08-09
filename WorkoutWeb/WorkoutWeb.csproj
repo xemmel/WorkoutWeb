@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -145,7 +146,12 @@
     <Compile Include="Migrations\201408081338332_AddPieValue.Designer.cs">
       <DependentUpon>201408081338332_AddPieValue.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201408091603007_Category.cs" />
+    <Compile Include="Migrations\201408091603007_Category.Designer.cs">
+      <DependentUpon>201408091603007_Category.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Logon.cs" />
     <Compile Include="Models\PieValue.cs" />
     <Compile Include="Models\User.cs" />
@@ -574,6 +580,11 @@
     <Content Include="Views\Auth\Logon.cshtml" />
     <Content Include="Views\Graph\ShowGraph.cshtml" />
     <Content Include="Views\Graph\Index.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -587,6 +598,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408081338332_AddPieValue.resx">
       <DependentUpon>201408081338332_AddPieValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408091603007_Category.resx">
+      <DependentUpon>201408091603007_Category.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,9 +19,11 @@ namespace WorkoutWeb.Controllers
       return View();
     }
     
-    public ActionResult ShowGraph()
+    public ActionResult ShowGraph(int id)
     {
-      return View();
+      var model = db.Categories.Find(id);
+      
+      return View(model);
     }
 
     [HttpPost]

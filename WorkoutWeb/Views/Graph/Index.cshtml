@@ -5,12 +5,11 @@
 @section headscripts
 {
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  @Scripts.Render("~/bundles/angular")
 
 }
 <h2>Create Graph Data</h2>
 
-<div data-ng-app="graphApp" data-ng-controller="graphCtrl">
+<div data-ng-controller="graphCtrl">
   
   <div class="row">
     <div class="col-md-2">
@@ -29,10 +28,11 @@
     </div>
 
     <div class="col-md-offset-4">
-      <select data-ng-model="category">
-        <option value="1">Fruits</option>
-        <option value="2">Presidents</option>
+
+      <select data-ng-model="selectedCategory" data-ng-options="cat.Name  for cat in categories">
+      
       </select>
+
       <input type="checkbox" data-ng-model="chkPie" id="chkPie" title="Pie" /><label for="chkPie">Pie</label>
       <div id="myGraph"></div>
     </div>
