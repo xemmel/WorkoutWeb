@@ -61,6 +61,8 @@
 
 @section scripts
 {
+    <script src="~/Scripts/bootbox.js"></script>
+
   <script>
     // Load the Visualization API and the piechart package.
     google.load('visualization', '1.0', { 'packages': ['corechart'] });
@@ -147,15 +149,20 @@
       };
 
       $scope.delete = function (id) {
-        $scope.loadMode = true;
+        bootbox.confirm("Delete " + this.p.Name + " ?", function (result) {
+          if (result) {
+            $scope.loadMode = true;
 
-        console.log(id);
-        $http({ method: "DELETE", url: "Graph/DelPie/" + id }).
-          success(function (data) {
-            $scope.status = "Deleted..";
-            $scope.updateScreen();
+            console.log(id);
+            $http({ method: "DELETE", url: "Graph/DelPie/" + id }).
+              success(function (data) {
+                $scope.status = "Deleted..";
+                $scope.updateScreen();
 
-          });
+              });
+          }
+        });
+  
       };
 
       $scope.updateScreen();
