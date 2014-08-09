@@ -1,0 +1,153 @@
+﻿@{
+  ViewBag.Title = "Index";
+}
+
+@section headscripts
+{
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  @Scripts.Render("~/bundles/angular")
+
+}
+<h2>Create Graph Data</h2>
+
+<div data-ng-app="graphApp" data-ng-controller="graphCtrl">
+  <div class="row">
+    <div class="col-md-2">
+      <label>Fruit:</label>
+      <input type="text" data-ng-model="pie.Name" placeholder="Name" class="form-control" />
+    </div>
+    <div class="col-md-1">
+      <label>Amount:</label>
+      <input type="text" data-ng-model="pie.Value" placeholder="Value" class="form-control" />
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-primary" data-ng-click="save()" data-ng-hide="updateMode">Submit</button>
+      <button class="btn btn-primary" data-ng-click="update()" data-ng-show="updateMode">Update</button>
+      <button class="btn btn-danger" data-ng-click="cancelUpdate()" data-ng-show="updateMode">Cancel</button>
+
+    </div>
+
+    <div class="col-md-offset-4">
+      <div id="myGraph"></div>
+    </div>
+  </div>
+
+  <div class="badge">{{status}}</div>
+  <hr />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Fruit</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="p in pies">
+        <td>{{p.Name}}</td>
+        <td>{{p.Value}}</td>
+        <td>
+          <a href="#" data-ng-click="edit()"><i class="glyphicon glyphicon-edit"></i></a>| 
+                    <a href="#" data-ng-click="delete(p.PieValueId)"><i class="glyphicon glyphicon-remove"></i></a>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+@section scripts
+{
+  <script>
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', { 'packages': ['corechart'] });
+
+    function drawPie(data) {
+      var tdata = new google.visualization.DataTable();
+
+      tdata.addColumn('string', 'Fruits');
+      tdata.addColumn('number', 'Sales');
+      for (var i = 0; i < data.length; i++) {
+        tdata.addRow([data[i].Name, data[i].Value]);
+      };
+      new google.visualization.PieChart(document.getElementById('myGraph')).
+        draw(tdata, { title: "Fruits", is3D: true });
+
+    };
+
+    var app = angular.module("graphApp", []);
+
+    app.controller("graphCtrl", function ($scope, $http) {
+      $scope.pie = {};
+      $scope.pies = [];
+      $scope.updateMode = false;
+      $scope.status = "";
+      $scope.updateScreen = function () {
+        $http({ method: "GET", url: "Graph/GetPieData" }).
+          success(function (data) {
+            $scope.pies = data;
+            drawPie(data);
+            console.dir(data);
+          });
+      };
+
+
+      $scope.save = function () {
+        console.dir($scope.pie);
+        $http({ method: 'POST', url: 'Graph/PostPieData', data: $scope.pie }).
+            success(function (data, status, headers, config) {
+              console.log("Success");
+              console.dir(data);
+              $scope.status = "Submitted..";
+              $scope.pie = {};
+              $scope.updateScreen();
+
+            }).
+  error(function (data, status, headers, config) {
+    console.log("Error");
+    console.dir(data);
+    $scope.status = data;
+
+  });
+      };
+      $scope.edit = function () {
+        console.log(this.p);
+        $scope.updateMode = true;
+        $scope.pie = this.p;
+      };
+
+      $scope.cancelUpdate = function () {
+        $scope.pie = {};
+        $scope.updateMode = false;
+      };
+
+      $scope.update = function () {
+        console.log("Updating..");
+        console.dir($scope.pie);
+        $http({ method: "PUT", url: "Graph/UpdatePie/" + $scope.pie.PieValueId, data: $scope.pie }).
+            success(function (data) {
+              $scope.pie = {};
+              $scope.updateMode = false;
+              $scope.updateScreen();
+              $scope.status = "Updated..";
+
+
+            });
+
+      };
+
+      $scope.delete = function (id) {
+        console.log(id);
+        $http({ method: "DELETE", url: "Graph/DelPie/" + id }).
+          success(function (data) {
+            $scope.status = "Deleted..";
+            $scope.updateScreen();
+
+          });
+      };
+
+      $scope.updateScreen();
+
+    });
+  </script>
+
+}

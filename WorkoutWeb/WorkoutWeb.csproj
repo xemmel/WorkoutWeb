@@ -568,6 +568,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Auth\Logon.cshtml" />
     <Content Include="Views\Graph\ShowGraph.cshtml" />
+    <Content Include="Views\Graph\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
