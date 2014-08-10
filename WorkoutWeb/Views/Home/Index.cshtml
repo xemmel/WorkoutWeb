@@ -6,11 +6,15 @@
   <div class="loader">
     <img src="~/Images/ajax-loader.gif" class="ajax-loader" data-ng-show="!loaded" />
   </div>
-  <ul data-ng-cloak="">
+@*  <ul data-ng-cloak="">
     <li data-ng-repeat="cat in categories">
       <a href="/Graph/ShowGraph/{{cat.CategoryId}}">{{cat.Name}}</a>
     </li>
-  </ul>
+  </ul>*@
+<div class="col-md-6" style="height:100px" data-ng-repeat="(index,cat) in categories">
+              <a href="/Graph/ShowGraph/{{cat.CategoryId}}" style="font-size:22px">{{cat.Name}}</a>
+<br data-ng-show="(index+1)%2==0" />
+    </div>
 </div>
 <script>
   var startCtrl = function ($scope, $http) {
