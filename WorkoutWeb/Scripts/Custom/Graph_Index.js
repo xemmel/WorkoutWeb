@@ -102,6 +102,7 @@ error(function (data, status, headers, config) {
   $scope.cancelUpdate = function () {
     $scope.pie = {};
     $scope.updateMode = false;
+    $scope.updateScreen();
   };
 
   $scope.update = function () {

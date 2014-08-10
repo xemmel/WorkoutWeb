@@ -1,22 +1,25 @@
 ﻿@{
-    ViewBag.Title = "Index";
+  ViewBag.Title = "Index";
 }
 
-<div data-ng-controller="startCtrl" ng-cloak>
-    <ul>
-      <li data-ng-repeat="cat in categories">
-        <a href="/Graph/ShowGraph/{{cat.CategoryId}}">{{cat.Name}}</a>
-      </li>
-    </ul>
+<div data-ng-controller="startCtrl">
+  <div class="loader">
+    <img src="~/Images/ajax-loader.gif" class="ajax-loader" data-ng-show="!loaded" />
+  </div>
+  <ul data-ng-cloak="">
+    <li data-ng-repeat="cat in categories">
+      <a href="/Graph/ShowGraph/{{cat.CategoryId}}">{{cat.Name}}</a>
+    </li>
+  </ul>
 </div>
 <script>
   var startCtrl = function ($scope, $http) {
-    $scope.loaded = false; 
+    $scope.loaded = false;
     $scope.categories = [];
-    $http({method: "GET", url: "/Category/GetAll"}).
+    $http({ method: "GET", url: "/Category/GetAll" }).
       success(function (data) {
         $scope.categories = data;
-        $scope.loaded = true; 
+        $scope.loaded = true;
       });
   };
 </script>
