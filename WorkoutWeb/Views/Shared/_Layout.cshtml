@@ -91,7 +91,6 @@
       $http({ method: "GET", url: "/Category/GetAll" }).
         success(function (data) {
           $scope.categories = data;
-          console.dir(data);
         });
     };
   </script>

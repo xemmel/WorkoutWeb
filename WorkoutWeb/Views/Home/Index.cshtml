@@ -2,4 +2,21 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div data-ng-controller="startCtrl" ng-cloak>
+    <ul>
+      <li data-ng-repeat="cat in categories">
+        <a href="/Graph/ShowGraph/{{cat.CategoryId}}">{{cat.Name}}</a>
+      </li>
+    </ul>
+</div>
+<script>
+  var startCtrl = function ($scope, $http) {
+    $scope.loaded = false; 
+    $scope.categories = [];
+    $http({method: "GET", url: "/Category/GetAll"}).
+      success(function (data) {
+        $scope.categories = data;
+        $scope.loaded = true; 
+      });
+  };
+</script>

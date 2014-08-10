@@ -21,19 +21,19 @@
       <input type="text" data-ng-model="pie.Value" placeholder="Value" class="form-control" />
     </div>
     <div class="col-md-1">
-      <button class="btn btn-primary" data-ng-click="save()" data-ng-hide="updateMode">Submit</button>
-      <button class="btn btn-primary" data-ng-click="update()" data-ng-show="updateMode">Update</button>
-      <button class="btn btn-danger" data-ng-click="cancelUpdate()" data-ng-show="updateMode">Cancel</button>
+      <button class="btn btn-primary" data-ng-click="save()" data-ng-hide="updateMode" data-ng-cloak="">Submit</button>
+      <button class="btn btn-primary" data-ng-click="update()" data-ng-show="updateMode" data-ng-cloak="">Update</button>
+      <button class="btn btn-danger" data-ng-click="cancelUpdate()" data-ng-show="updateMode" data-ng-cloak="">Cancel</button>
 
     </div>
 
     <div class="col-md-offset-4">
 
-      <select data-ng-model="selectedCategory" data-ng-options="cat.Name  for cat in categories">
+      <select data-ng-model="selectedCategory" data-ng-options="cat.Name  for cat in categories" data-ng-cloak="">
       
       </select>
 
-      <input type="checkbox" data-ng-model="chkPie" id="chkPie" title="Pie" /><label for="chkPie">Pie</label>
+      <input type="checkbox" data-ng-model="chkPie" id="chkPie" title="Pie" data-ng-cloak="" /><label for="chkPie">Pie</label>
       <div id="myGraph"></div>
     </div>
   </div>
@@ -43,7 +43,7 @@
    <div class="loader">
     <img src="~/Images/ajax-loader.gif" class="ajax-loader" data-ng-show="loadMode" />
   </div>
-  <table class="table table-striped">
+  <table class="table table-striped" data-ng-cloak="">
     <thead>
       <tr>
         <th>Fruit</th>
